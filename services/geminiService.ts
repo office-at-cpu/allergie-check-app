@@ -2,9 +2,18 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import type { UserData, Question, Answer } from '../types';
 
-// FIX: Corrected API key retrieval to use `process.env.API_KEY` and updated client initialization
-// as per the coding guidelines. This resolves the TypeScript error regarding `import.meta.env`.
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// The VITE_ prefix is required by the Vite build tool to securely expose
+// environment variables to the client-side code.
+// @ts-ignore - We are ignoring a TypeScript error here because the build environment (Vite)
+// guarantees that `import.meta.env` will be present, but the default TS config doesn't know this.
+const apiKey = import.meta.env.VITE_API_KEY;
+
+if (!apiKey) {
+  // This error will be visible in the browser's developer console.
+  throw new Error("API-Schlüssel nicht gefunden. Bitte stellen Sie sicher, dass die VITE_API_KEY Umgebungsvariable in den Vercel-Projekteinstellungen korrekt gesetzt ist.");
+}
+
+const ai = new GoogleGenAI({ apiKey });
 
 const questionGenerationSchema = {
   type: Type.ARRAY,
