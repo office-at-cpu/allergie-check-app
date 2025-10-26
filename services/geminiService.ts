@@ -1,16 +1,15 @@
-﻿
 import { GoogleGenAI, Type } from "@google/genai";
 import type { UserData, Question, Answer } from '../types';
 
-// Fix: Use process.env.API_KEY to access the API key as per the coding guidelines and to resolve the TypeScript error.
+// FIX: Changed API key retrieval from `import.meta.env` to `process.env.API_KEY` to fix a TypeScript type error and conform to API guidelines.
 const apiKey = process.env.API_KEY;
 
 if (!apiKey) {
-  // This error will be visible in the browser's developer console if the variable is not set.
-  throw new Error("API_KEY environment variable is not set. Please ensure it is configured in your project settings.");
+  // This error will be visible in the developer console if the variable is not set.
+  throw new Error("API_KEY environment variable is not set.");
 }
 
-const ai = new GoogleGenAI({ apiKey: apiKey });
+const ai = new GoogleGenAI({ apiKey });
 
 const questionGenerationSchema = {
   type: Type.ARRAY,
@@ -106,4 +105,3 @@ export async function evaluateAnswers(userData: UserData, answers: Answer[]): Pr
     console.error("Fehler bei der Auswertung der Antworten:", error);
     throw new Error("Die Auswertung konnte nicht erstellt werden. Bitte versuchen Sie es später erneut.");
   }
-}
