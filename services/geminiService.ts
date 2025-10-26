@@ -105,3 +105,4 @@ export async function evaluateAnswers(userData: UserData, answers: Answer[]): Pr
     console.error("Fehler bei der Auswertung der Antworten:", error);
     throw new Error("Die Auswertung konnte nicht erstellt werden. Bitte versuchen Sie es später erneut.");
   }
+}
