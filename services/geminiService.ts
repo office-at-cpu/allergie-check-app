@@ -1,15 +1,10 @@
+
 import { GoogleGenAI, Type } from "@google/genai";
 import type { UserData, Question, Answer } from '../types';
 
-// FIX: Changed API key retrieval from `import.meta.env` to `process.env.API_KEY` to fix a TypeScript type error and conform to API guidelines.
-const apiKey = process.env.API_KEY;
-
-if (!apiKey) {
-  // This error will be visible in the developer console if the variable is not set.
-  throw new Error("API_KEY environment variable is not set.");
-}
-
-const ai = new GoogleGenAI({ apiKey });
+// FIX: Corrected API key retrieval to use `process.env.API_KEY` and updated client initialization
+// as per the coding guidelines. This resolves the TypeScript error regarding `import.meta.env`.
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 const questionGenerationSchema = {
   type: Type.ARRAY,
