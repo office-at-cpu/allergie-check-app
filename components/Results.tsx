@@ -2,7 +2,6 @@ import React from 'react';
 
 interface ResultsProps {
   evaluation: string;
-  email: string;
   onRestart: () => void;
 }
 
@@ -28,14 +27,11 @@ const SimpleMarkdown: React.FC<{ text: string }> = ({ text }) => {
   return <>{elements}</>;
 };
 
-export const Results: React.FC<ResultsProps> = ({ evaluation, email, onRestart }) => {
+export const Results: React.FC<ResultsProps> = ({ evaluation, onRestart }) => {
   return (
     <div className="w-full max-w-3xl mx-auto bg-white p-8 sm:p-10 rounded-2xl shadow-lg border border-gray-200">
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-gray-800 mb-2">Ihre persönliche Auswertung</h2>
-        <p className="text-gray-600">
-          Eine Kopie dieser Auswertung wurde an <span className="font-semibold text-sky-600">{email}</span> gesendet.
-        </p>
       </div>
 
       <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">

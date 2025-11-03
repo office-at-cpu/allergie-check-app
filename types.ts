@@ -1,5 +1,4 @@
-
-export type AppStep = 'welcome' | 'questionnaire' | 'email' | 'evaluating' | 'results' | 'error';
+﻿export type AppStep = 'welcome' | 'questionnaire' | 'evaluating' | 'results' | 'error';
 
 export interface UserData {
   age: number;

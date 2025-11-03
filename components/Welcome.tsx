@@ -8,6 +8,7 @@ interface WelcomeProps {
 export const Welcome: React.FC<WelcomeProps> = ({ onStart }) => {
   const [age, setAge] = useState<string>('');
   const [gender, setGender] = useState<UserData['gender'] | ''>('');
+  const [consent, setConsent] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -19,6 +20,10 @@ export const Welcome: React.FC<WelcomeProps> = ({ onStart }) => {
     }
     if (!gender) {
       setError('Bitte wählen Sie ein Geschlecht aus.');
+      return;
+    }
+    if (!consent) {
+      setError('Bitte stimmen Sie der Datenverarbeitung zu, um fortzufahren.');
       return;
     }
     setError('');
@@ -57,16 +62,37 @@ export const Welcome: React.FC<WelcomeProps> = ({ onStart }) => {
             <option value="Divers">Divers</option>
           </select>
         </div>
+
+        <div className="space-y-4 pt-4 border-t border-gray-200">
+            <div className="text-xs text-gray-600 bg-gray-50 p-4 rounded-lg border border-gray-200 space-y-2">
+                 <p className="font-semibold text-gray-800">Einwilligung in die Verarbeitung meiner personenbezogenen Daten.</p>
+                 <p>Ich willige ausdrücklich ein, dass meine angegebenen Daten (einschließlich Gesundheitsdaten) zur Durchführung des Allergie-Checks verarbeitet werden. Die Auswertung erfolgt automatisiert durch eine künstliche Intelligenz und dient ausschließlich zu Informationszwecken. Es erfolgt keine ärztliche Prüfung oder Diagnose. Meine Daten werden nur temporär verarbeitet und werden ausschließlich zur Bereitstellung der Auswertung verwendet und sofern technisch möglich nicht dauerhaft gespeichert, oder an Dritte weitergegeben. Ich kann die Nutzung jederzeit abbrechen. Eine Identifikation meiner Person ist nicht möglich!</p>
+            </div>
+            <div className="flex items-start space-x-3 pt-2">
+                <input
+                    id="consent-checkbox"
+                    type="checkbox"
+                    checked={consent}
+                    onChange={(e) => setConsent(e.target.checked)}
+                    className="h-4 w-4 text-sky-600 focus:ring-sky-500 border-gray-300 rounded mt-1 flex-shrink-0"
+                />
+                <label htmlFor="consent-checkbox" className="text-sm text-gray-700">
+                   Ich habe die <a href="https://www.hautarzt-schaetz-krems.at/datenschutz/" target="_blank" rel="noopener noreferrer" className="text-sky-600 hover:underline">Datenschutzerklärung</a> gelesen und stimme der anonymen Verarbeitung meiner Daten zu.
+                </label>
+            </div>
+        </div>
+
         {error && <p className="text-red-500 text-sm text-center">{error}</p>}
         <button
           type="submit"
-          className="w-full bg-sky-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 transition-transform transform hover:scale-105"
+          disabled={!consent}
+          className="w-full bg-sky-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 transition-transform transform hover:scale-105 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none"
         >
           Anamnese starten
         </button>
       </form>
        <p className="text-xs text-gray-500 mt-6 text-center">
-        Dieser Check ersetzt keine ärztliche Beratung. Ihre Privatsphäre ist uns wichtig. Details finden Sie in unserer <a href="#" className="text-sky-600 hover:underline">Datenschutzerklärung</a>.
+        Dieser Check ersetzt keine ärztliche Beratung.
       </p>
     </div>
   );
